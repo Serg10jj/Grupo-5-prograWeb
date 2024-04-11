@@ -184,7 +184,7 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-//
+
 app.get("/libros", async (req, res) => {
   try {
     const libros = await Libro.model.findAll();
@@ -211,18 +211,18 @@ app.delete("/libro/:libro_id", async (req, res) => {
 app.put("/libros/:libro_id", async (req, res) => {
   try {
     const { libro_id } = req.params;
-    const { nombre_autor, nombe_libro } = req.body;
-    await User.model.update(
+    const { nombre_autor, nombre_libro } = req.body;
+    await Libro.model.update(
       {
         nombre_autor,
-        nombe_libro,
+        nombre_libro,
       },
       {
         where: {
           libro_id,
         },
       }
-    ); // Update the user with the given libro_id
+    ); // Update the libro with the given libro_id
     res.status(204).json({ message: "Libro updated" });
   } catch (error) {
     console.error("Error updating libro:", error);
