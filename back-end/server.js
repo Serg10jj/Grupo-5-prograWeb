@@ -184,6 +184,54 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
+//
+app.get("/libros", async (req, res) => {
+  try {
+    const libros = await Libro.model.findAll();
+    res.status(200).json(libros);
+  } catch (error) {
+    console.error("Error fetching libros:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.delete("/libro/:libro_id", async (req, res) => {
+  try {
+    const { libro_id } = req.params;
+    await Libro.model.destroy({
+      where: {
+        libro_id,
+      },
+    });
+    res.status(204).json({ message: "Libro deleted" });
+  } catch (error) {
+    console.error("Error deleting libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.put("/libros/:libro_id", async (req, res) => {
+  try {
+    const { libro_id } = req.params;
+    const { nombre_autor, nombe_libro } = req.body;
+    await User.model.update(
+      {
+        nombre_autor,
+        nombe_libro,
+      },
+      {
+        where: {
+          libro_id,
+        },
+      }
+    ); // Update the user with the given libro_id
+    res.status(204).json({ message: "Libro updated" });
+  } catch (error) {
+    console.error("Error updating libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
 
 
 
