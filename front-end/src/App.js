@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Login from "./components/login/login";
 import Home from "./components/home/home";
@@ -7,6 +6,7 @@ import Registro from "./components/registro/registro";
 import Consulta from "./components/consulta/consulta";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Libros from "./components/libros/libros";
+import RegistroLibro from "./components/registroLibro/registroLibro";
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
           <Route exact path="/registro" element={<Registro />} />
           <Route exact path="/consulta" element={<Consulta />} /> 
           <Route exact path="/libros" element={<Libros />} />
+          <Route exact path="/consultalibros" element={<RegistroLibro />} />
       </Routes>
      </Router>
     </div>

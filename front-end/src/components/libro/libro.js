@@ -8,7 +8,7 @@ const Libro = ({ libro, refreshData }) => {
   const [libroId, setlibroId] = useState(libro.libro_id);
   const [nombreLibro, setNombreLibro] = useState(libro.nombre_libro);
   const [nombreAutor, setNombreAutor] = useState(libro.nombre_autor);
-  const deleteLibro = async (libro_Id) => {
+  const deleteLibro = async (libro_id) => {
     console.log("deleteLibro");
     try {
       await axios.delete(`http://localhost:3008/libros/${libro_id}`);
