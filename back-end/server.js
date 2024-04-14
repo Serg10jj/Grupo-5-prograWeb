@@ -229,9 +229,6 @@ app.put("/libros/:libro_id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
 
 
 
