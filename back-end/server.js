@@ -2,6 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 3008;
+
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const secretKey = "1234";
+
 const { Sequelize, DataTypes } = require("sequelize");
 app.use(cors());
 // Express middleware for parsing JSON
@@ -104,11 +109,26 @@ app.post("/login", async (req, res) => {
     const user = await User.model.findOne({
       where: {
         user_email: user_email,
-        user_password: user_password,
       },
     });
-    if (user) {
-      res.status(200).json({ message: "Login successful", user });
+
+    const isValidPassword = await bcrypt.compare(
+      user_password,
+      user.user_password
+    );
+
+    // Define token expiration time (e.g., 1 hour)
+    const expirationTime = 300; // in seconds
+
+    // Generate JWT token with expiration time
+    const token = jwt.sign(
+      { userId: user.user_id, timeIssued: Date.now() }, // payload
+      secretKey,
+      { expiresIn: expirationTime } // options
+    );
+
+    if (user && isValidPassword) {
+      res.status(200).json({ message: "Login successful", user, token });
     } else {
       res.status(401).json({ error: "Invalid credentials" });
     }
@@ -122,11 +142,13 @@ app.post("/register", async (req, res) => {
     const { user_email, user_name, user_last_name, user_password } = req.body;
     console.log("req.body");
     console.log(req.body);
+
+    const hassPassword = await bcrypt.hash(user_password, 10);
     const user = await User.model.create({
       user_email,
       user_name,
       user_last_name,
-      user_password,
+      user_password: hassPassword,
     });
     res.status(201).json({ message: "User created", user });
   } catch (error) {
