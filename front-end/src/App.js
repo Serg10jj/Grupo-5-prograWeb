@@ -19,7 +19,7 @@ function App() {
           <Route exact path="/registro" element={<Registro />} />
           <Route exact path="/consulta" element={<Consulta />} /> 
           <Route exact path="/libros" element={<Libros />} />
-          <Route exact path="/consultalibros" element={<RegistroLibro />} />
+          <Route exact path="/registroLibro" element={<RegistroLibro />} />
       </Routes>
      </Router>
     </div>

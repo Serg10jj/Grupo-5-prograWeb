@@ -6,10 +6,15 @@ import { useNavigate } from "react-router-dom";
 import Libro from "../libro/libro";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-//import Item from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+
+
 const Libros = () => {
   const [libros, setLibros] = useState([]);
 
+  const handleRefresh = () => {
+    window.location.reload();
+  };
   const navigate = useNavigate();
   const fetchLibros = async () => {
     console.log("fetchLibros");
@@ -25,7 +30,7 @@ const Libros = () => {
     }
   };
   useEffect(() => {
-   fetchLibros();
+    fetchLibros();
   }, []);
 
   const handleFilter = (e) => {
@@ -44,7 +49,7 @@ const Libros = () => {
           <TextField
             id="outlined-basic"
             onChange={handleFilter}
-            label="Outlined"
+            label="Filtro por Nombre"
             variant="outlined"
           />
         </Grid>
@@ -61,6 +66,12 @@ const Libros = () => {
           console.log("libro: forEach", libro);
         })}
       </Grid>
+      <br />
+      <br />
+
+      <Button onClick={handleRefresh} variant="contained">
+        Refrescar
+      </Button>
       <ul></ul>
     </div>
   );
