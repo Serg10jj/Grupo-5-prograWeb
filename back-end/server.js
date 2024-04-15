@@ -62,12 +62,12 @@ const libroSchema = {
     autoIncrement: true,
     allowNull: false,
   },
-  nombre_Libro: {
+  nombre_libro: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: false,
   },
-  nombre_Autor: {
+  nombre_autor: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: false,
@@ -91,7 +91,9 @@ const syncronizeDB = () => {
       console.error("Error synchronizing database:", error);
     });
 };
- syncronizeDB();
+ //syncronizeDB();
+
+ 
 app.get("/api", (req, res) => {
   res.send("Hello World!");
 });
@@ -134,6 +136,9 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
+
 app.get("/users", async (req, res) => {
   try {
     const users = await User.model.findAll();
@@ -180,6 +185,72 @@ app.put("/users/:user_id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+//back-end para libros
+
+app.get("/libros", async (req, res) => {
+  try {
+    const libros = await Libro.model.findAll();
+    res.status(200).json(libros);
+  } catch (error) {
+    console.error("Error fetching libros:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.delete("/libros/:libro_id", async (req, res) => {
+  try {
+    const { libro_id } = req.params;
+    await Libro.model.destroy({
+      where: {
+        libro_id,
+      },
+    });
+    res.status(204).json({ message: "Libro deleted" });
+  } catch (error) {
+    console.error("Error deleting libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.put("/libros/:libro_id", async (req, res) => {
+  try {
+    const { libro_id } = req.params;
+    const { nombre_autor, nombre_libro } = req.body;
+    await Libro.model.update(
+      {
+        nombre_autor,
+        nombre_libro,
+        
+      },
+      {
+        where: {
+          libro_id,
+        },
+      }
+    ); // Update the libro with the given libro_id
+    res.status(204).json({ message: "Libro updated" });
+  } catch (error) {
+    console.error("Error updating libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/registroLibro", async (req, res) => {
+  try {
+    const { nombre_autor, nombre_libro } = req.body;
+    console.log("req.body");
+    console.log(req.body);
+    const libro = await Libro.model.create({
+      nombre_autor,
+      nombre_libro,
+    });
+    res.status(201).json({ message: "Libro created", libro });
+  } catch (error) {
+    console.error("Error creating libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

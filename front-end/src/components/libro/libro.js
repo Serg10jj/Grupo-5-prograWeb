@@ -12,7 +12,7 @@ const Libro = ({ libro, refreshData }) => {
     console.log("deleteLibro");
     try {
       await axios.delete(`http://localhost:3008/libros/${libro_id}`);
-      // const newLiros = users.filter((libro) => libro.libro_id !== libro_id);
+      // const newLibros = users.filter((libro) => libro.libro_id !== libro_id);
       //     setLibros(newLibros);
       refreshData();
     } catch (e) {
@@ -25,7 +25,7 @@ const Libro = ({ libro, refreshData }) => {
       await axios.put(`http://localhost:3008/libros/${libroId}`, {
         nombre_autor: nombreAutor,
         nombre_libro: nombreLibro,
-       
+
       });
       refreshData();
       // Redirect or show success message upon successful update
@@ -36,7 +36,7 @@ const Libro = ({ libro, refreshData }) => {
 
   return (
     <div className={styles.Libro} data-testid="Libro">
-      User: {libro.nombre_libro} {libro.nombre_autor}
+      Libro: {libro.nombre_libro} - {libro.nombre_autor}
       <button onClick={() => deleteLibro(libro.libro_id)}>Eliminar</button>
       <button onClick={() => setEdit(!edit)}>Edit</button>
       <div style={{ display: edit ? "block" : "none" }}>
