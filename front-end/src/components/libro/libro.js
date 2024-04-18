@@ -63,6 +63,7 @@ const Libro = ({ libro, refreshData }) => {
               required
             />
           </label>
+          <br />
           <label>
             Cantidad Disponible:
             <input
@@ -73,7 +74,7 @@ const Libro = ({ libro, refreshData }) => {
             />
           </label>
           <br />
-          <br />
+          
           <button type="submit">Update</button>
         </form>{" "}
         <hr />

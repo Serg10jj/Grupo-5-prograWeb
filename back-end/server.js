@@ -160,8 +160,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-
-
 app.get("/users", async (req, res) => {
   try {
     const users = await User.model.findAll();
@@ -242,7 +240,7 @@ app.put("/libros/:libro_id", async (req, res) => {
       {
         nombre_autor,
         nombre_libro,
-        cantidad_disponible
+        cantidad_disponible,
       },
       {
         where: {

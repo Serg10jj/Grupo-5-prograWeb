@@ -52,6 +52,7 @@ const Libro = ({ libro, refreshData }) => {
               required
             />
           </label>
+          <br />
           <label>
             Cantidad Disponible:
             <input
