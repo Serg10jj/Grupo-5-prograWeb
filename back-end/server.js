@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = 3009;
+const port = 3008;
 const { Sequelize, DataTypes } = require("sequelize");
 
 app.use(cors());
@@ -116,7 +116,7 @@ const syncronizeDB = async () => {
     console.error("Error synchronizing database:", error);
   }
 };
-syncronizeDB();
+//syncronizeDB();
 
 // Routes
 
@@ -317,6 +317,23 @@ app.put("/reservaLibros/:reserva_id", async (req, res) => {
     res.status(204).json({ message: "Reserva de libro actualizada" });
   } catch (error) {
     console.error("Error actualizando reserva de libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/registroLibro", async (req, res) => {
+  try {
+    const { nombre_autor, nombre_libro, cantidad_disponible } = req.body;
+    console.log("req.body");
+    console.log(req.body);
+    const libro = await Libro.model.create({
+      nombre_autor,
+      nombre_libro,
+      cantidad_disponible
+    });
+    res.status(201).json({ message: "Libro created", libro });
+  } catch (error) {
+    console.error("Error creating libro:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

@@ -81,11 +81,13 @@ const Libros = () => {
                 <TableCell>{libro.nombre_autor}</TableCell>
                 <TableCell>{libro.cantidad_disponible}</TableCell>
                 <TableCell>
-                  {/* Aquí irían tus botones de editar y eliminar */}
-                  <Box sx={{ display: 'flex', gap: 2.5 }}>
-                  <Button variant="contained" color="primary">Editar</Button>
-                  <Button variant="contained" color="secondary">Eliminar</Button>
-                  </Box>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(`/libros/${libro.libro_id}`)}
+                  >
+                    Editar
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
