@@ -117,7 +117,7 @@ const syncronizeDB = () => {
       console.error("Error synchronizing database:", error);
     });
 };
- syncronizeDB();
+ //syncronizeDB();
 
  
 app.get("/api", (req, res) => {
