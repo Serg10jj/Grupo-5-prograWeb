@@ -68,6 +68,7 @@ const Libros = () => {
             <TableRow>
               <TableCell>Título</TableCell>
               <TableCell>Autor</TableCell>
+              <TableCell>Cantida Disponible</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -76,6 +77,7 @@ const Libros = () => {
               <TableRow key={libro.libro_id}>
                 <TableCell>{libro.nombre_libro}</TableCell>
                 <TableCell>{libro.nombre_autor}</TableCell>
+                <TableCell>{libro.cantidad_disponible}</TableCell>
                 <TableCell>
                   {/* Aquí irían tus botones de editar y eliminar */}
                   <Box sx={{ display: 'flex', gap: 2.5 }}>
@@ -90,11 +92,6 @@ const Libros = () => {
       </TableContainer>
     </Box>
     </Card>
-    <Grid container justifyContent="space-between" sx={{ marginTop: 2 }}>
-        <Button onClick={fetchLibros} variant="contained" color="primary" style={{backgroundColor: 'green', color: 'white'}}>
-          Refrescar
-        </Button>
-      </Grid>
     </div>
   );
 };
