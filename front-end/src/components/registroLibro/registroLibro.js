@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 const RegistroLibro = () => {
   const [nombreLibro, setNombreLibro] = useState("");
   const [nombreAutor, setNombreAutor] = useState("");
+  const [cantidadDisponible, setCantidadDisponible] = useState("");
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const RegistroLibro = () => {
       const response = await axios.post("http://localhost:3008/registroLibro", {
         nombre_autor: nombreAutor,
         nombre_libro: nombreLibro,
+        cantidad_disponible: cantidadDisponible,
 
       });
       console.log(response.data);
@@ -27,6 +30,7 @@ const RegistroLibro = () => {
       //navigate("/");
       setNombreAutor("");
       setNombreLibro("");
+      setCantidadDisponible("");
     } catch (error) {
       console.error("Error registering Libro:", error);
     }
@@ -52,6 +56,16 @@ const RegistroLibro = () => {
               setNombreAutor(e.target.value);
             }}
             label="Autor"
+            variant="outlined"
+          />
+          <br />
+          <br />
+          <TextField
+            id="outlined-basic"
+            onChange={(e) => {
+              setCantidadDisponible(e.target.value);
+            }}
+            label="Cantidad Disponible"
             variant="outlined"
           />
           <br />

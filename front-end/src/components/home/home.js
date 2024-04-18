@@ -14,6 +14,8 @@ const Home = () => {
             <a href="/libros">Consulta de Libros</a>
             &nbsp; &nbsp;
             <a href="/registroLibro">Registro de Libros</a>
+            &nbsp; &nbsp;
+            <a href="/reservarlibro">Reserva de Libros</a>
          </nav>
          <h1>Home</h1>
       </div>
