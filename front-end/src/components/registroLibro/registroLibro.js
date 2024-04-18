@@ -33,6 +33,9 @@ const RegistroLibro = () => {
   };
   return (
     <div className={styles.RegistroLibro} data-testid="RegistroLibro">
+      <a href="/libros">Home</a>
+      <br />
+      <br />
       <Card sx={{ maxWidth: 375, margin: "auto" }}>
         <CardContent>
           <h1>Registro de Libros</h1>

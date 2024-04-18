@@ -5,7 +5,7 @@ const Consulta = () => {
    
    return (
       <div>
-      <a href="/home">Home</a>
+      <a href="/libros">Home</a>
       <h1>Consulta</h1>
       </div>
    );

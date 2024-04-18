@@ -1,0 +1,10 @@
+/* login.module.css */
+
+.Login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
+  }

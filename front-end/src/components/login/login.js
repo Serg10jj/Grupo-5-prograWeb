@@ -25,7 +25,7 @@ const Login = () => {
        console.log(response);
        localStorage.setItem("user", JSON.stringify(response.data.user));
        localStorage.setItem("token", JSON.stringify(response.data.token));
-       navigate("/home");
+       navigate("/libros");
      } catch (e) {
        alert("Invalid credentials");
      }
@@ -63,7 +63,7 @@ const Login = () => {
            <br />
            <br />
            <Button onClick={handleSumbit} variant="contained">
-             Contained
+             Login
            </Button>
          </CardContent>
        </Card>
