@@ -37,7 +37,14 @@ const RegistroLibro = () => {
   };
   return (
     <div className={styles.RegistroLibro} data-testid="RegistroLibro">
-      <Card sx={{ maxWidth: 375, margin: "auto" }}>
+      <Card sx={{ maxWidth: 430,
+      maxHeight: 400, 
+      mx: "auto", 
+      mt: 5, 
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '50vh'}}>
         <CardContent>
           <h1>Registro de Libros</h1>
           <TextField
@@ -60,7 +67,7 @@ const RegistroLibro = () => {
           />
           <br />
           <br />
-          <TextField
+            <TextField
             id="outlined-basic"
             onChange={(e) => {
               setCantidadDisponible(e.target.value);
@@ -69,8 +76,8 @@ const RegistroLibro = () => {
             variant="outlined"
           />
           <br />
-          <br />
-          <Button onClick={handleSubmit} variant="contained">
+          <br /> 
+          <Button onClick={handleSubmit} variant="contained" style={{backgroundColor: 'green', color: 'white'}}>
             Registro de Libro
           </Button>
         </CardContent>
