@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import styles from "./libro.module.css";
+import styles from "./reservaLibro.module.css";
 import axios from "axios";
 
 const Libro = ({ libro, refreshData }) => {
-  const [edit, setEdit] = useState(false);
   const [libroId, setlibroId] = useState(libro.libro_id);
   const [nombreLibro, setNombreLibro] = useState(libro.nombre_libro);
   const [nombreAutor, setNombreAutor] = useState(libro.nombre_autor);
   const [cantidadDisponible, setCantidadDisponible] = useState(libro.cantidad_disponible);
-  const deleteLibro = async (libro_id) => {
-    console.log("deleteLibro");
-    try {
-      await axios.delete(`http://localhost:3008/libros/${libro_id}`);
-      // const newLibros = users.filter((libro) => libro.libro_id !== libro_id);
-      //     setLibros(newLibros);
-      refreshData();
-    } catch (e) {
-      console.error("Error deleting Libro:", e);
-    }
-  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3008/libros/${libroId}`, {
+      await axios.put(`http://localhost:3008/reservarlibro/${libroId}`, {
         nombre_autor: nombreAutor,
         nombre_libro: nombreLibro,
         cantidad_disponible: cantidadDisponible,
@@ -72,9 +61,6 @@ const Libro = ({ libro, refreshData }) => {
               required
             />
           </label>
-          <br />
-          <br />
-          <button type="submit">Update</button>
         </form>{" "}
         <hr />
       </div>
