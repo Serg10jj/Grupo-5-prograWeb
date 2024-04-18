@@ -25,6 +25,9 @@ const Navbar = () => {
   const handleSumbitRegistro = async () => {
     navigate("/registro");
   }
+  const handleSumbitReservaLibro = async () => {
+    navigate("/registroLibro");
+  }
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -40,6 +43,7 @@ const Navbar = () => {
             <Button onClick={handleSumbitHome} color="inherit">Home</Button>
             <Button onClick={handleSumbitConsulta} color="inherit">Consulta</Button>
             <Button onClick={handleSumbitRegistroLibro} color="inherit">Registrar Libro</Button>
+            <Button onClick={handleSumbitReservaLibro} color="inherit">Reservar Libro</Button>
         </Toolbar>
       </AppBar>
     </>

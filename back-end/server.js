@@ -78,10 +78,29 @@ const libroSchema = {
     unique: false,
   },
 };
+  const apartadosSchema = {
+    libro_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    nombre_libro: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    nombre_autor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+};
 
 // Create User entity using the schema
 const User = new Entity("User", userSchema);
 const Libro = new Entity("Libro", libroSchema);
+const Apartado = new Entity("Apartado", apartadosSchema);
 // Synchronize the database with the defined models.
 // This will create the tables if they do not exist
 // It will also create the tables with the defined schema
@@ -92,12 +111,13 @@ const syncronizeDB = () => {
     .then(async () => {
       await User.sync();
       await Libro.sync();
+      await Apartado.sync();
     })
     .catch((error) => {
       console.error("Error synchronizing database:", error);
     });
 };
- //syncronizeDB();
+ syncronizeDB();
 
  
 app.get("/api", (req, res) => {
@@ -255,6 +275,22 @@ app.post("/registroLibro", async (req, res) => {
   }
 });
 
+
+app.post("/reservaLibro", async (req, res) => {
+  try {
+    const { nombre_libro, nombre_usuario } = req.body;
+    console.log("req.body");
+    console.log(req.body);
+    const nuevoApartado = await Apartado.model.create({
+      nombre_libro,
+      nombre_usuario,
+    });
+    res.status(201).json({ message: "Reserva created", libro });
+  } catch (error) {
+    console.error("Error creating Reserva:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
