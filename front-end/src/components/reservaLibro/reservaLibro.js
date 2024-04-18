@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import styles from "./registroLibro.module.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
@@ -13,75 +11,56 @@ const ReservaLibro = () => {
   const [nombreUsuario, setNombreUsuario] = useState("");
 
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3008/reservaLibro", {
+      const response = await axios.post("http://localhost:3009/libros/apartados", {
         nombre_libro: nombreLibro,
         nombre_usuario: nombreUsuario,
-
       });
       console.log(response.data);
-      // Reset input fields after successful registration
-      alert("Libro Reservado con Exito");
-      localStorage.setItem("Reserva", JSON.stringify(response.data.NuevoApartado));
-      //navigate("/");
+      alert("Libro reservado exitosamente");
+      // Restablecer los campos de entrada después de una reserva exitosa
       setNombreLibro("");
       setNombreUsuario("");
     } catch (error) {
-      console.error("Error Reserva Libro:", error);
+      console.error("Error al reservar libro:", error);
     }
   };
+
   return (
-    <div className={styles.RegistroLibro} data-testid="ReservaLibro">
-      <Card sx={{ maxWidth: 430,
-      maxHeight: 400, 
-      mx: "auto", 
-      mt: 5, 
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '50vh'}}>
+    <div>
+      <Card>
         <CardContent>
           <h1>Reserva de Libros</h1>
-          <TextField
-            id="outlined-basic"
-            onChange={(e) => {
-              setNombreLibro(e.target.value);
-            }}
-            label="Nombre del Libro"
-            variant="outlined"
-          />
-          <br />
-          <br />
-          <TextField
-            id="outlined-basic"
-            onChange={(e) => {
-              setNombreAutor(e.target.value);
-            }}
-            label="Autor"
-            variant="outlined"
-          />
-          <br />
-          <br />
+          <form onSubmit={handleSubmit}>
             <TextField
-            id="outlined-basic"
-            onChange={(e) => {
-              setCantidadDisponible(e.target.value);
-            }}
-            label="Cantidad Disponible"
-            variant="outlined"
-          />
-          <br />
-          <br /> 
-          <Button onClick={handleSubmit} variant="contained" style={{backgroundColor: 'green', color: 'white'}}>
-            Registro de Libro
-          </Button>
+              id="nombre-libro"
+              value={nombreLibro}
+              onChange={(e) => setNombreLibro(e.target.value)}
+              label="Nombre del Libro"
+              variant="outlined"
+            />
+            <br />
+            <br />
+            <TextField
+              id="nombre-usuario"
+              value={nombreUsuario}
+              onChange={(e) => setNombreUsuario(e.target.value)}
+              label="Nombre del Usuario"
+              variant="outlined"
+            />
+            <br />
+            <br />
+            <Button type="submit" variant="contained" color="primary">
+              Reservar Libro
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
   );
 };
-ReservaLibro.propTypes = {};
-ReservaLibro.defaultProps = {};
+
 export default ReservaLibro;

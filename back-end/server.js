@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = 3008;
+const port = 3009;
 const { Sequelize, DataTypes } = require("sequelize");
+
 app.use(cors());
 // Express middleware for parsing JSON
 app.use(express.json());
-//Conexion a la DB
+
 // Database connection
 const sequelize = new Sequelize({
   dialect: "mysql",
@@ -15,6 +16,7 @@ const sequelize = new Sequelize({
   password: "1234",
   database: "grupo5db",
 });
+
 // Entity class for dynamic table creation
 class Entity {
   constructor(name, fields) {
@@ -26,7 +28,8 @@ class Entity {
     console.log(`Table for ${this.name} synchronized`);
   }
 }
-// Define a simple schema for the User entity
+
+// Define schemas for User, Libro, and Apartado entities
 const userSchema = {
   user_id: {
     type: DataTypes.INTEGER,
@@ -55,6 +58,7 @@ const userSchema = {
     unique: false,
   },
 };
+
 const libroSchema = {
   libro_id: {
     type: DataTypes.INTEGER,
@@ -73,62 +77,57 @@ const libroSchema = {
     unique: false,
   },
   cantidad_disponible: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: false,
+  },
+};
+
+const apartadosSchema = {
+  apartado_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+  nombre_libro: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  nombre_usuario: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: false,
   },
 };
-  const apartadosSchema = {
-    libro_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    nombre_libro: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: false,
-    },
-    nombre_autor: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: false,
-    },
-};
 
-// Create User entity using the schema
+// Create User, Libro, and Apartado entities using the schemas
 const User = new Entity("User", userSchema);
 const Libro = new Entity("Libro", libroSchema);
 const Apartado = new Entity("Apartado", apartadosSchema);
-// Synchronize the database with the defined models.
-// This will create the tables if they do not exist
-// It will also create the tables with the defined schema
-// it will delete the information in the table
-const syncronizeDB = () => {
-  sequelize
-    .sync()
-    .then(async () => {
-      await User.sync();
-      await Libro.sync();
-      await Apartado.sync();
-    })
-    .catch((error) => {
-      console.error("Error synchronizing database:", error);
-    });
-};
- syncronizeDB();
 
- 
+// Synchronize the database with the defined models
+const syncronizeDB = async () => {
+  try {
+    await sequelize.sync();
+    console.log("Database synchronized");
+  } catch (error) {
+    console.error("Error synchronizing database:", error);
+  }
+};
+syncronizeDB();
+
+// Routes
+
 app.get("/api", (req, res) => {
   res.send("Hello World!");
 });
 
+// User routes
 app.post("/login", async (req, res) => {
   try {
     const { user_email, user_password } = req.body;
-    console.log("req.body");
-    console.log(req.body);
     const user = await User.model.findOne({
       where: {
         user_email: user_email,
@@ -145,11 +144,10 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 app.post("/register", async (req, res) => {
   try {
     const { user_email, user_name, user_last_name, user_password } = req.body;
-    console.log("req.body");
-    console.log(req.body);
     const user = await User.model.create({
       user_email,
       user_name,
@@ -172,6 +170,7 @@ app.get("/users", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 app.delete("/user/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
@@ -186,6 +185,7 @@ app.delete("/user/:user_id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 app.put("/users/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
@@ -202,7 +202,7 @@ app.put("/users/:user_id", async (req, res) => {
           user_id,
         },
       }
-    ); // Update the user with the given user_id
+    );
     res.status(204).json({ message: "User updated" });
   } catch (error) {
     console.error("Error updating user:", error);
@@ -210,8 +210,7 @@ app.put("/users/:user_id", async (req, res) => {
   }
 });
 
-//back-end para libros
-
+// Libro routes
 app.get("/libros", async (req, res) => {
   try {
     const libros = await Libro.model.findAll();
@@ -221,6 +220,7 @@ app.get("/libros", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 app.delete("/libros/:libro_id", async (req, res) => {
   try {
     const { libro_id } = req.params;
@@ -235,6 +235,7 @@ app.delete("/libros/:libro_id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 app.put("/libros/:libro_id", async (req, res) => {
   try {
     const { libro_id } = req.params;
@@ -250,7 +251,7 @@ app.put("/libros/:libro_id", async (req, res) => {
           libro_id,
         },
       }
-    ); // Update the libro with the given libro_id
+    );
     res.status(204).json({ message: "Libro updated" });
   } catch (error) {
     console.error("Error updating libro:", error);
@@ -258,40 +259,68 @@ app.put("/libros/:libro_id", async (req, res) => {
   }
 });
 
-app.post("/registroLibro", async (req, res) => {
+// ReservaLibro routes
+app.post("/reservaLibros", async (req, res) => {
   try {
-    const { nombre_autor, nombre_libro, cantidad_disponible } = req.body;
-    console.log("req.body");
-    console.log(req.body);
-    const libro = await Libro.model.create({
-      nombre_autor,
+    const { nombre_libro, nombre_usuario } = req.body;
+    const nuevaReserva = await Apartado.model.create({
       nombre_libro,
-      cantidad_disponible
+      nombre_usuario,
     });
-    res.status(201).json({ message: "Libro created", libro });
+    res.status(201).json({ message: "Reserva realizada", reserva: nuevaReserva });
   } catch (error) {
-    console.error("Error creating libro:", error);
+    console.error("Error realizando reserva:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-app.post("/reservaLibro", async (req, res) => {
+app.get("/reservaLibros", async (req, res) => {
   try {
-    const { nombre_libro, nombre_usuario } = req.body;
-    console.log("req.body");
-    console.log(req.body);
-    const nuevoApartado = await Apartado.model.create({
-      nombre_libro,
-      nombre_usuario,
-    });
-    res.status(201).json({ message: "Reserva created", libro });
+    const reservas = await Apartado.model.findAll();
+    res.status(200).json(reservas);
   } catch (error) {
-    console.error("Error creating Reserva:", error);
+    console.error("Error obteniendo reservas de libros:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.delete("/reservaLibros/:reserva_id", async (req, res) => {
+  try {
+    const { reserva_id } = req.params;
+    await Apartado.model.destroy({
+      where: {
+        apartado_id: reserva_id,
+      },
+    });
+    res.status(204).json({ message: "Reserva de libro eliminada" });
+  } catch (error) {
+    console.error("Error eliminando reserva de libro:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.put("/reservaLibros/:reserva_id", async (req, res) => {
+  try {
+    const { reserva_id } = req.params;
+    const { nombre_libro, nombre_usuario } = req.body;
+    await Apartado.model.update(
+      {
+        nombre_libro,
+        nombre_usuario,
+      },
+      {
+        where: {
+          apartado_id: reserva_id,
+        },
+      }
+    );
+    res.status(204).json({ message: "Reserva de libro actualizada" });
+  } catch (error) {
+    console.error("Error actualizando reserva de libro:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 });
