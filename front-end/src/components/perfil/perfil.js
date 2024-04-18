@@ -10,6 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 const Perfil = () => {
 
@@ -37,6 +38,7 @@ const Perfil = () => {
 
   return (
     <div className={styles.Perfil} data-testid="Perfil">
+      <Navbar />
     <Card sx={{ maxWidth: 400,
     maxHeight: 380, 
     mx: "auto", 

@@ -18,6 +18,7 @@ import {
   Toolbar,  
   Card
 } from "@mui/material";
+import Navbar from "../Navbar/Navbar";
 
 const Libros = () => {
   const [libros, setLibros] = useState([]);
@@ -51,6 +52,7 @@ const Libros = () => {
 
   return (
     <div className={styles.Libros} data-testid="Libros">
+      <Navbar />
       <Card>
     <Box sx={{ marginTop: 4 }}>
       <Grid container spacing={2}>

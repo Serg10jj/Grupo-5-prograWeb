@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 const RegistroLibro = () => {
   const [nombreLibro, setNombreLibro] = useState("");
@@ -33,6 +34,7 @@ const RegistroLibro = () => {
   };
   return (
     <div className={styles.RegistroLibro} data-testid="RegistroLibro">
+      <Navbar />
       <Card sx={{ maxWidth: 430,
       maxHeight: 400, 
       mx: "auto", 
