@@ -1,76 +1,66 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import styles from "./reservaLibro.module.css";
+import React, { useState } from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Libro = ({ libro, refreshData }) => {
-  const [libroId, setlibroId] = useState(libro.libro_id);
-  const [nombreLibro, setNombreLibro] = useState(libro.nombre_libro);
-  const [nombreAutor, setNombreAutor] = useState(libro.nombre_autor);
-  const [cantidadDisponible, setCantidadDisponible] = useState(libro.cantidad_disponible);
-  
+const ReservaLibro = () => {
+  const [nombreLibro, setNombreLibro] = useState("");
+  const [nombreUsuario, setNombreUsuario] = useState("");
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3008/reservarlibro/${libroId}`, {
-        nombre_autor: nombreAutor,
+      const response = await axios.post("http://localhost:3008/libros/apartados", {
         nombre_libro: nombreLibro,
-        cantidad_disponible: cantidadDisponible,
-
+        nombre_usuario: nombreUsuario,
       });
-      refreshData();
-      // Redirect or show success message upon successful update
+      console.log(response.data);
+      alert("Libro reservado exitosamente");
+      // Restablecer los campos de entrada después de una reserva exitosa
+      setNombreLibro("");
+      setNombreUsuario("");
     } catch (error) {
-      console.error("Error updating libro:", error);
+      console.error("Error al reservar libro:", error);
     }
   };
 
   return (
-    <div className={styles.Libro} data-testid="Libro">
-      Libro: {libro.nombre_libro} - {libro.nombre_autor} - {libro.cantidad_disponible}
-      <button onClick={() => deleteLibro(libro.libro_id)}>Eliminar</button>
-      <button onClick={() => setEdit(!edit)}>Edit</button>
-      <div style={{ display: edit ? "block" : "none" }}>
-        <hr />
-        <form onSubmit={handleSubmit}>
-          <label>
-            Nombre del Libro:
-            <input
-              type="text"
+    <div>
+      <Card>
+        <CardContent>
+          <h1>Reserva de Libros</h1>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              id="nombre-libro"
               value={nombreLibro}
               onChange={(e) => setNombreLibro(e.target.value)}
-              required
+              label="Nombre del Libro"
+              variant="outlined"
             />
-          </label>
-          <br />
-          <label>
-            Autor:
-            <input
-              type="text"
-              value={nombreAutor}
-              onChange={(e) => setNombreAutor(e.target.value)}
-              required
+            <br />
+            <br />
+            <TextField
+              id="nombre-usuario"
+              value={nombreUsuario}
+              onChange={(e) => setNombreUsuario(e.target.value)}
+              label="Nombre del Usuario"
+              variant="outlined"
             />
-          </label>
-          <br />
-          <label>
-            Cantidad Disponible:
-            <input
-              type="text"
-              value={cantidadDisponible}
-              onChange={(e) => setCantidadDisponible(e.target.value)}
-              required
-            />
-          </label>
-        </form>{" "}
-        <hr />
-      </div>
+            <br />
+            <br />
+            <Button type="submit" variant="contained" color="primary">
+              Reservar Libro
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
 
-Libro.propTypes = {};
-
-Libro.defaultProps = {};
-
-export default Libro;
+export default ReservaLibro;
