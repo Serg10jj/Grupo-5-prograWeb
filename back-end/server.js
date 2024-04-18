@@ -78,23 +78,6 @@ const libroSchema = {
     unique: false,
   },
 };
-const apartadosSchema = {
-  apartado_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
-  libro_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-};
-
 
 // Create User entity using the schema
 const User = new Entity("User", userSchema);
@@ -275,21 +258,4 @@ app.post("/registroLibro", async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-});
-
-
-
-
-
-
-
-// Ruta para obtener libros reservados
-app.get("/reservarlibro", async (req, res) => {
-  try {
-    const libros = await Libro.model.findAll();
-    res.status(200).json(libros);
-  } catch (error) {
-    console.error("Error fetching libros:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
 });

@@ -20,9 +20,7 @@ const Libros = () => {
     console.log("fetchLibros");
     try {
       const response = await axios.get("http://localhost:3008/libros", {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
+        
       });
       setLibros(response.data);
     } catch (e) {
