@@ -26,7 +26,7 @@ const Navbar = () => {
     navigate("/registro");
   }
   const handleSumbitReservaLibro = async () => {
-    navigate("/registroLibro");
+    navigate("/reservaLibro");
   }
 
   const handleDrawerToggle = () => {

@@ -1,6 +1,7 @@
 import "./App.css";
 import Login from "./components/login/login";
 import Perfil from "./components/perfil/perfil";
+import ReservaLibro from "./components/reservaLibro/reservaLibro";
 import Registro from "./components/registro/registro";
 import Consulta from "./components/consulta/consulta";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/consulta" element={<Consulta />} /> 
           <Route exact path="/libros" element={<Libros />} />
           <Route exact path="/registroLibro" element={<RegistroLibro />} />
+          <Route exact path="/reservaLibro" element={<ReservaLibro />} />
       </Routes>
      </Router>
     </div>
