@@ -37,8 +37,6 @@ const Navbar = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-            <Button onClick={handleSumbitLogin} color="inherit">Login</Button>
-            <Button onClick={handleSumbitRegistro} color="inherit">Registro</Button>
             <Button onClick={handleSumbitPerfil} color="inherit">Profile</Button>
             <Button onClick={handleSumbitHome} color="inherit">Home</Button>
             <Button onClick={handleSumbitConsulta} color="inherit">Consulta</Button>
