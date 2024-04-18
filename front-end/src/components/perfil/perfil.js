@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import styles from "./perfil.module.css";
 
 //imports MUI
 import Card from "@mui/material/Card";
@@ -11,6 +12,15 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
 const Perfil = () => {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+  // Your component code goes here
+
   const navigate = useNavigate(); // Hook para la navegación
   // Simula la carga de datos de usuario
   const userData = JSON.parse(localStorage.getItem("user"));
@@ -19,23 +29,22 @@ const Perfil = () => {
   if (!userData) {
     return <p>No hay datos de usuario disponibles</p>;
   }
-
+  
   const handleBack = () => {
    navigate('/libros');
  };
 
 
   return (
-    <Card sx={{ maxWidth: 600, mx: "auto", mt: 5 }}>
-      <nav>
-            <a href="/perfil">Perfil</a>
-            &nbsp; &nbsp;
-            <a href="/consulta">Consulta</a>
-            &nbsp; &nbsp;
-            <a href="/registroLibro">Registro de Libros</a>
-         </nav>
-         <br />
-         <br />
+    <div className={styles.Perfil} data-testid="Perfil">
+    <Card sx={{ maxWidth: 400,
+    maxHeight: 380, 
+    mx: "auto", 
+    mt: 5, 
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '50vh' }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Perfil de Usuario
@@ -52,16 +61,14 @@ const Perfil = () => {
         <Typography color="text.secondary">
           Email: {userData.user_email}
         </Typography>
-        <Button
-          sx={{ mt: 2 }}
-          variant="outlined"
-          color="primary"
-          onClick={handleBack} // Manejador de eventos para el clic
-        >
-          Volver
+        <br />
+        <br />
+        <Button variant="contained" color="primary" onClick={logout}>
+          Logout
         </Button>
       </CardContent>
     </Card>
+    </div>
   );
 };
 

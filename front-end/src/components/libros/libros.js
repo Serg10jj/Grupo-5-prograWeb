@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./libros.module.css";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -14,7 +15,8 @@ import {
   Paper,
   Box,
   AppBar,
-  Toolbar  
+  Toolbar,  
+  Card
 } from "@mui/material";
 
 const Libros = () => {
@@ -47,21 +49,10 @@ const Libros = () => {
     libro.nombre_libro.toLowerCase().includes(filtro.toLowerCase())
   );
 
-  const handleBack = () => {
-    navigate('/home'); // o la ruta que corresponda
-  };
-
   return (
+    <div className={styles.Libros} data-testid="Libros">
+      <Card>
     <Box sx={{ marginTop: 4 }}>
-      <nav>
-            <a href="/perfil">Perfil</a>
-            &nbsp; &nbsp;
-            <a href="/consulta">Consulta</a>
-            &nbsp; &nbsp;
-            <a href="/registroLibro">Registro de Libros</a>
-         </nav>
-         <br />
-         <br />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -89,23 +80,24 @@ const Libros = () => {
                 <TableCell>{libro.nombre_autor}</TableCell>
                 <TableCell>
                   {/* Aquí irían tus botones de editar y eliminar */}
-                  <Button color="primary">Editar</Button>
-                  <Button color="secondary">Eliminar</Button>
+                  <Box sx={{ display: 'flex', gap: 2.5 }}>
+                  <Button variant="contained" color="primary">Editar</Button>
+                  <Button variant="contained" color="secondary">Eliminar</Button>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid container justifyContent="space-between" sx={{ marginTop: 2 }}>
-        <Button onClick={handleBack} variant="contained">
-          Volver
-        </Button>
-        <Button onClick={fetchLibros} variant="contained" color="primary">
+    </Box>
+    </Card>
+    <Grid container justifyContent="space-between" sx={{ marginTop: 2 }}>
+        <Button onClick={fetchLibros} variant="contained" color="primary" style={{backgroundColor: 'green', color: 'white'}}>
           Refrescar
         </Button>
       </Grid>
-    </Box>
+    </div>
   );
 };
 
