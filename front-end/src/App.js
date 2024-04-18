@@ -6,11 +6,13 @@ import Consulta from "./components/consulta/consulta";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Libros from "./components/libros/libros";
 import RegistroLibro from "./components/registroLibro/registroLibro";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
     <div className="App">
      <Router>
+     <Navbar />
       <Routes> 
       <Route exact path="/" element={<Login />} />
           <Route exact path="/perfil" element={<Perfil />} />

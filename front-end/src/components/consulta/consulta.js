@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from "./consulta.module.css";
 
 const Consulta = () => {
    
    return (
-      <div>
-      <a href="/libros">Home</a>
-      <h1>Consulta</h1>
+      <div className={styles.Consulta} data-testid="Consulta">
+      <h1 style={{ color: 'white' }}>Consulta</h1>
       </div>
    );
 }
